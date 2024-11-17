@@ -133,7 +133,6 @@ while 1:
                 ans_j = j
     field[ans_i] = field[ans_i][:ans_j] + move + field[ans_i][ans_j + 1:]
     #вывод ответа
-    print("-------------")
     print(*field, sep='\n')
     break
 input()
