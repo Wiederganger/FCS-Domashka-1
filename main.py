@@ -115,12 +115,12 @@ while 1:
             flag = False
             break
         elif tmp == move + '.' + move:
-            field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + move + field[i[1] // 3][i[1] % 3 + 1:]
+            field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + move + field[i[1] // 3][i[1] % 3 + 1:]      #ставим фишку
             print(*field, sep='\n')        #вывод
             flag = False
             break
         elif tmp == move * 2 + '.':
-            field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + move + field[i[2] // 3][i[2] % 3 + 1:]
+            field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + move + field[i[2] // 3][i[2] % 3 + 1:]      #ставим фишку
             print(*field, sep='\n')        #вывод
             flag = False
             break
