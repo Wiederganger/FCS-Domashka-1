@@ -92,27 +92,40 @@ while 1:
     move = sign(cnt)
     anmove = ansign(move)
     # определяем не закончена ли уже партия на момент ввода
+    flag = True
+    if cnt == 9:
+        print("Партия уже закончена. Дальнейшие ходы делать невозможно.")
+        flag = False
+    if not flag:
+        break
     for i in already:
         tmp = field[i[0] // 3][i[0] % 3] + field[i[1] // 3][i[1] % 3] + field[i[2] // 3][i[2] % 3]
         if tmp == move * 3 or tmp == anmove * 3:
-            print("Партия уже закончена. Дальнейшие ходы делать бессмысленно.")
-            exit()
+            print("Партия уже закончена. Дальнейшие ходы делать невозможно.")
+            flag = False
+            break
+    if not flag:
+        break
     # проверяем можно ли за один ход победить
     for i in already:
         tmp = field[i[0] // 3][i[0] % 3] + field[i[1] // 3][i[1] % 3] + field[i[2] // 3][i[2] % 3]
         if tmp == '.' + move * 2:
             field[i[0] // 3] = field[i[0] // 3][:i[0] % 3] + move + field[i[0] // 3][i[0] % 3 + 1:]
             print(*field, sep='\n')
-            exit()
+            flag = False
+            break
         elif tmp == move + '.' + move:
             field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + move + field[i[1] // 3][i[1] % 3 + 1:]
             print(*field, sep='\n')
-            exit()
+            flag = False
+            break
         elif tmp == move * 2 + '.':
             field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + move + field[i[2] // 3][i[2] % 3 + 1:]
             print(*field, sep='\n')
-            exit()
-
+            flag = False
+            break
+    if not flag:
+        break
     we_won = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
     amount = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
     #запускаем перебор всех вариантов
@@ -135,4 +148,4 @@ while 1:
     #вывод ответа
     print(*field, sep='\n')
     break
-input()
+input("\nНажмите на Enter для выхода")
