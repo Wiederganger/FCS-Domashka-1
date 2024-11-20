@@ -27,33 +27,33 @@ def bforce(field, cnt, to_add, we_won, amount, right_move):
     #проверяем что мы уже выиграли
     for i in already:
         tmp = field[i[0] // 3][i[0] % 3] + field[i[1] // 3][i[1] % 3] + field[i[2] // 3][i[2] % 3]      #создаём строку-визуализацию полоски
-        if tmp == anmove * 3:
-            amount[to_add] += 1
-            if anmove == right_move:
-                we_won[to_add] += 1
+        if tmp == anmove * 3:          #проверяем полоску на "XXX" или "OOO"
+            amount[to_add] += 1        #прибавляем единицу к количеству партий полученных после данного хода в целом
+            if anmove == right_move:   #проверяем что победили мы
+                we_won[to_add] += 1    #прибавляем единицу к количеству партий полученных после данного хода где мы победили
             return
     #проверяем ситуацию на ничью
     if cnt == 9:
-        amount[to_add] += 1
-        we_won[to_add] += 1
+        amount[to_add] += 1      #прибавляем единицу к количеству партий полученных после данного хода в целом
+        we_won[to_add] += 1      #прибавляем единицу к количеству партий полученных после данного хода где мы победили
         return
     #проверяем что мы можем одним ходом завершить партию
     for i in already:
         tmp = field[i[0] // 3][i[0] % 3] + field[i[1] // 3][i[1] % 3] + field[i[2] // 3][i[2] % 3]      #создаём строку-визуализацию полоски
-        if tmp == '.' + move * 2:
-            field[i[0] // 3] = field[i[0] // 3][:i[0] % 3] + move + field[i[0] // 3][i[0] % 3 + 1:]
-            bforce(field, cnt + 1, to_add, we_won, amount, right_move)
-            field[i[0] // 3] = field[i[0] // 3][:i[0] % 3] + '.' + field[i[0] // 3][i[0] % 3 + 1:]
+        if tmp == '.' + move * 2:          #проверяем полоску на ".XX" или ".OO"
+            field[i[0] // 3] = field[i[0] // 3][:i[0] % 3] + move + field[i[0] // 3][i[0] % 3 + 1:]     #делаем ход
+            bforce(field, cnt + 1, to_add, we_won, amount, right_move)                                  #запускаемся рекурсивно
+            field[i[0] // 3] = field[i[0] // 3][:i[0] % 3] + '.' + field[i[0] // 3][i[0] % 3 + 1:]      #убираем ход
             return
-        elif tmp == move + '.' + move:
-            field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + move + field[i[1] // 3][i[1] % 3 + 1:]
-            bforce(field, cnt + 1, to_add, we_won, amount, right_move)
-            field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + '.' + field[i[1] // 3][i[1] % 3 + 1:]
+        elif tmp == move + '.' + move:          #проверяем полоску на "X.X" или "O.O"
+            field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + move + field[i[1] // 3][i[1] % 3 + 1:]     #делаем ход
+            bforce(field, cnt + 1, to_add, we_won, amount, right_move)                                  #запускаемся рекурсивно
+            field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + '.' + field[i[1] // 3][i[1] % 3 + 1:]      #убираем ход
             return
-        elif tmp == move * 2 + '.':
-            field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + move + field[i[2] // 3][i[2] % 3 + 1:]
-            bforce(field, cnt + 1, to_add, we_won, amount, right_move)
-            field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + '.' + field[i[2] // 3][i[2] % 3 + 1:]
+        elif tmp == move * 2 + '.':          #проверяем полоску на "XX." или "OO."
+            field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + move + field[i[2] // 3][i[2] % 3 + 1:]     #делаем ход
+            bforce(field, cnt + 1, to_add, we_won, amount, right_move)                                  #запускаемся рекурсивно
+            field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + '.' + field[i[2] // 3][i[2] % 3 + 1:]      #убираем ход
             return
     #ничего не нашли и расставляем фишки дальше перебирая все пустые клетки
     for i in range(3):
@@ -79,12 +79,12 @@ while 1:
         for j in range(3):
             if field[i][j] != '.':
                 cnt += 1
-                if field[i][j] == 'X':
-                    cnt_x += 1
-                else:
-                    cnt_o += 1
+                if field[i][j] == 'X':       #если символ крестик
+                    cnt_x += 1               #прибавить 1 к количеству крестиков
+                else:                        #иначе
+                    cnt_o += 1               #прибавить 1 к количеству ноликов
     print("-------------")
-    if cnt_o > cnt_x or abs(cnt_x - cnt_o) >= 2:
+    if cnt_o > cnt_x or abs(cnt_x - cnt_o) >= 2:                #сообщение об ошибке
         print('\033[91m' + "Неверный формат ввода. Количество крестиков и ноликов не соответствует правилам.")
         print("Программа завершается для повторения." + '\033[0m')
         print("-----------------------")
@@ -94,14 +94,14 @@ while 1:
     #определяем не закончена ли уже партия на момент ввода
     flag = True
     if cnt == 9:
-        print("Партия уже закончена. Дальнейшие ходы делать невозможно.")
+        print("Партия уже закончена. Дальнейшие ходы делать невозможно.")       #выводим сообщение о законченности игры и завершаем программу
         flag = False
     if not flag:
         break
     for i in already:
         tmp = field[i[0] // 3][i[0] % 3] + field[i[1] // 3][i[1] % 3] + field[i[2] // 3][i[2] % 3]      #создаём строку-визуализацию полоски
         if tmp == move * 3 or tmp == anmove * 3:
-            print("Партия уже закончена. Дальнейшие ходы делать невозможно.")
+            print("Партия уже закончена. Дальнейшие ходы делать невозможно.")       #выводим сообщение о законченности игры и завершаем программу
             flag = False
             break
     if not flag:
@@ -109,17 +109,17 @@ while 1:
     #проверяем можно ли за один ход победить
     for i in already:
         tmp = field[i[0] // 3][i[0] % 3] + field[i[1] // 3][i[1] % 3] + field[i[2] // 3][i[2] % 3]      #создаём строку-визуализацию полоски
-        if tmp == '.' + move * 2:
+        if tmp == '.' + move * 2:          #проверяем полоску на ".XX" или ".OO"
             field[i[0] // 3] = field[i[0] // 3][:i[0] % 3] + move + field[i[0] // 3][i[0] % 3 + 1:]      #ставим фишку
             print(*field, sep='\n')        #вывод
             flag = False
             break
-        elif tmp == move + '.' + move:
+        elif tmp == move + '.' + move:          #проверяем полоску на "X.X" или "O.O"
             field[i[1] // 3] = field[i[1] // 3][:i[1] % 3] + move + field[i[1] // 3][i[1] % 3 + 1:]      #ставим фишку
             print(*field, sep='\n')        #вывод
             flag = False
             break
-        elif tmp == move * 2 + '.':
+        elif tmp == move * 2 + '.':          #проверяем полоску на "XX." или "OO."
             field[i[2] // 3] = field[i[2] // 3][:i[2] % 3] + move + field[i[2] // 3][i[2] % 3 + 1:]      #ставим фишку
             print(*field, sep='\n')        #вывод
             flag = False
@@ -127,8 +127,8 @@ while 1:
     if not flag:
         break
     #создаём 2 словаря где ключ и значение - номер ячейки и количество партий
-    we_won = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}       #количество партий где мы победили
-    amount = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}       #количество партий в целом
+    we_won = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}       #словарь с количеством партий полученных после данного хода где мы победили
+    amount = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}       #словарь с количеством партий полученных после данного хода в целом
     #запускаем перебор всех вариантов
     for i in range(3):
         for j in range(3):
@@ -140,12 +140,12 @@ while 1:
     ans_i, ans_j = -1, -1
     for i in range(3):
         for j in range(3):
-            if field[i][j] != '.':
+            if field[i][j] != '.':      #пропускаем все клетки где был сделан ход
                 continue
             if ans_i == -1 and ans_j == -1 or we_won[i * 3 + j] / amount[i * 3 + j] > we_won[ans_i * 3 + ans_j] / amount[ans_i * 3 + ans_j]:        #сравниваем вероятности не проигрыша
-                ans_i = i
-                ans_j = j
-    field[ans_i] = field[ans_i][:ans_j] + move + field[ans_i][ans_j + 1:]
+                ans_i = i         #присваеваем i к индексу ответа ans_i
+                ans_j = j         #присваеваем j к индексу ответа ans_j
+    field[ans_i] = field[ans_i][:ans_j] + move + field[ans_i][ans_j + 1:]       #делаем ход
     #вывод ответа
     print(*field, sep='\n')
     break
