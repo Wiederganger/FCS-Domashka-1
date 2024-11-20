@@ -16,7 +16,7 @@ already = (
 def sign(cnt):
     return 'X' if cnt % 2 == 0 else 'O'
 
-#определяется какая фигура соперник текущей
+#определяется какая фигура - соперник текущей
 def ansign(char):
     return 'X' if char == 'O' else 'O'
 
